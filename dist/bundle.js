@@ -119,17 +119,42 @@ var App = /** @class */ (function (_super) {
         _this.updateLines = function (text) {
             _this.setState({ lines: _this.state.lines.concat(text) });
         };
+        _this.setName = function () {
+            _this.setState({ visitorName: _this.state.value }, function () {
+                _this.updateLines("Welcome, " + _this.state.value + "! To begin, type a command such as \"experience\", or \"skills\". If you need help, simply type \"help\".");
+            });
+        };
+        _this.clearName = function () {
+            _this.setState({ visitorName: "" });
+        };
+        _this.updateName = function (name) {
+            _this.setState({ visitorName: name }, function () {
+                _this.updateLines("Thanks " + name + ", your name has been updated.");
+            });
+        };
         _this.handleSubmit = function (event) {
             event.preventDefault();
             event.target.reset();
-            _this.checkCommand();
+            if (!_this.state.visitorName) {
+                _this.setName();
+            }
+            else {
+                _this.checkCommand();
+            }
         };
         _this.clearLines = function () {
             _this.setState({ lines: [] });
         };
-        _this.state = { focus: true, value: "", lines: [] };
+        _this.state = { visitorName: "", focus: true, value: "", lines: [] };
         return _this;
     }
+    App.prototype.componentDidMount = function () {
+        if (!this.state.visitorName) {
+        }
+    };
+    App.prototype.getVisitorName = function () {
+        this;
+    };
     App.prototype.checkCommand = function () {
         var command = this.state.value.toLowerCase();
         var lines = [command];
@@ -148,11 +173,16 @@ var App = /** @class */ (function (_super) {
                 Skills.skills.forEach(function (skill) {
                     lines = lines.concat(skill);
                 });
+            case "name":
+                this.clearName();
+                lines = ["Please enter your name."];
+                // this.updateName(command);
+                break;
             case "clear":
                 this.clearLines();
                 break;
             default:
-                lines = [{ "type": "error", "text": command + ": command not found" }];
+                lines = [{ "type": "error", "text": command + ": sorry " + this.state.visitorName + ", that command could not be found" }];
         }
         this.updateLines(lines);
     };
@@ -179,7 +209,7 @@ var Terminal = /** @class */ (function (_super) {
             }
         });
         return (React.createElement("div", { className: "terminal" },
-            React.createElement("div", null, "Hello, welcome to my portfolio! To begin, type commands like experience, or skills. If you need help, simply type help."),
+            React.createElement("div", null, "Hello! Welcome to the portfolio of Dominic Minischetti, a Front-end Engineer located in California. Please type your name to begin."),
             lines));
     };
     return Terminal;
@@ -208,7 +238,7 @@ exports.Input = Input;
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = {"description":"You can do the following:","commands":[{"name":"experience","description":"view current and past jobs"},{"name":"skills","description":"view a list of skills"},{"name":"resume","description":"view my resume"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"},{"name":"clear","description":"clear all previous text"}]}
+module.exports = {"description":"You can do the following:","commands":[{"name":"experience","description":"view current and past jobs"},{"name":"skills","description":"view a list of skills"},{"name":"resume","description":"view my resume"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"},{"name":"clear","description":"clear all previous text"},{"name":"name","description":"change your name"}]}
 
 /***/ }),
 /* 5 */

@@ -6,6 +6,7 @@
             {"name": "resume", "description": "view my resume"},
             {"name": "social", "description": "view available social media profiles"},
             {"name": "email", "description": "write me an email"},
-            {"name": "clear", "description": "clear all previous text"}
+            {"name": "clear", "description": "clear all previous text"},
+            {"name": "name", "description": "change your name"}
     ]
 }

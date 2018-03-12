@@ -14,7 +14,15 @@ interface AppProps {
 export class App extends React.Component<AppProps, any> {
     constructor(props: any) {
         super(props);
-        this.state = { focus: true, value: "", lines: [] };
+        this.state = { visitorName: "", focus: true, value: "", lines: [] };
+    }
+    componentDidMount() {
+        if (!this.state.visitorName) {
+
+        }
+    }
+    getVisitorName() {
+        this
     }
     updateValue = (value: string) => {
         this.setState({ value: value });
@@ -22,10 +30,27 @@ export class App extends React.Component<AppProps, any> {
     updateLines = (text: Array<string>) => {
         this.setState({ lines: [...this.state.lines, ...text] });
     }
+    setName = () => {
+        this.setState({ visitorName: this.state.value }, () => {
+            this.updateLines(`Welcome, ${this.state.value}! To begin, type a command such as "experience", or "skills". If you need help, simply type "help".`);
+        });
+    }
+    clearName = () => {
+        this.setState({ visitorName: "" });
+    }
+    updateName = (name) => {
+        this.setState({ visitorName: name }, () => {
+            this.updateLines(`Thanks ${name}, your name has been updated.`);
+        });
+    }
     handleSubmit = (event: any) => {
         event.preventDefault();
         event.target.reset();
-        this.checkCommand();
+        if (!this.state.visitorName) {
+            this.setName();
+        } else {
+            this.checkCommand();
+        }
     }
     clearLines = () => {
         this.setState({ lines: [] });
@@ -48,11 +73,16 @@ export class App extends React.Component<AppProps, any> {
                 Skills.skills.forEach((skill: Array<string>) => {
                     lines = [...lines, ...skill];
                 });
+            case "name":
+                this.clearName();
+                lines = ["Please enter your name."];
+                // this.updateName(command);
+                break;
             case "clear":
                 this.clearLines();
                 break;
             default:
-                lines = [{ "type": "error", "text": `${command}: command not found` }];
+                lines = [{ "type": "error", "text": `${command}: sorry ${this.state.visitorName}, that command could not be found` }];
             }
         this.updateLines(lines);
     }
@@ -82,7 +112,7 @@ export class Terminal extends React.Component<TerminalProps, any> {
         });
         return (
             <div className="terminal">
-                <div>Hello, welcome to my portfolio! To begin, type commands like experience, or skills. If you need help, simply type help.</div>
+                <div>Hello! Welcome to the portfolio of Dominic Minischetti, a Front-end Engineer located in California. Please type your name to begin.</div>
                 {lines}
             </div>
         )

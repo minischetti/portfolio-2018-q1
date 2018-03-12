@@ -78,7 +78,7 @@ module.exports = React;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(2);
-var App_1 = __webpack_require__(4);
+var App_1 = __webpack_require__(3);
 ReactDOM.render(React.createElement(App_1.App, null), document.getElementById("app"));
 
 
@@ -89,8 +89,7 @@ ReactDOM.render(React.createElement(App_1.App, null), document.getElementById("a
 module.exports = ReactDOM;
 
 /***/ }),
-/* 3 */,
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -107,7 +106,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Help = __webpack_require__(5);
+var Help = __webpack_require__(4);
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
@@ -141,6 +140,8 @@ var App = /** @class */ (function (_super) {
                 });
                 this.updateLines(lines);
                 break;
+            default:
+                this.updateLines(command + ": command not found");
         }
     };
     App.prototype.render = function () {
@@ -190,7 +191,7 @@ exports.Input = Input;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = {"description":"You can do the following:","commands":[{"name":"jobs","description":"view current and past jobs"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"},{"name":"resume","description":"view my resume"}]}

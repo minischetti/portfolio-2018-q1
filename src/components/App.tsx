@@ -32,6 +32,8 @@ export class App extends React.Component {
                 });
                 this.updateLines(lines);
                 break;
+            default:
+                this.updateLines(`${command}: command not found`);
         }
     }
     render() {

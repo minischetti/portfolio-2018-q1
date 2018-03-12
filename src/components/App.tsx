@@ -26,6 +26,9 @@ export class App extends React.Component<AppProps, any> {
         event.target.reset();
         this.checkCommand();
     }
+    clearLines = () => {
+        this.setState({ lines: [] });
+    }
     checkCommand() {
         const command = this.state.value.toLowerCase();
         let lines = [command];
@@ -38,10 +41,12 @@ export class App extends React.Component<AppProps, any> {
                 break;
             case "experience":
                 Experience.jobs.forEach((x) => {
-                    lines = [...lines, ...`${x.name} | ${x.role} | ${x.duration}`];
-                    lines = [...lines, ...x.description];
+                    lines = [...lines, ...`${x.name} | ${x.role} | ${x.duration}\n${x.description}\n\n`];
                 });
                 this.updateLines(lines);
+                break;
+            case "clear":
+                this.clearLines();
                 break;
             default:
                 const array = [{ "type": "error", "text": `${command}: command not found` }];

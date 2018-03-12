@@ -123,6 +123,9 @@ var App = /** @class */ (function (_super) {
             event.target.reset();
             _this.checkCommand();
         };
+        _this.clearLines = function () {
+            _this.setState({ lines: [] });
+        };
         _this.state = { focus: true, value: "", lines: [] };
         return _this;
     }
@@ -138,10 +141,12 @@ var App = /** @class */ (function (_super) {
                 break;
             case "experience":
                 Experience.jobs.forEach(function (x) {
-                    lines = lines.concat(x.name + " | " + x.role + " | " + x.duration);
-                    lines = lines.concat(x.description);
+                    lines = lines.concat(x.name + " | " + x.role + " | " + x.duration + "\n" + x.description + "\n\n");
                 });
                 this.updateLines(lines);
+                break;
+            case "clear":
+                this.clearLines();
                 break;
             default:
                 var array = [{ "type": "error", "text": command + ": command not found" }];
@@ -200,7 +205,7 @@ exports.Input = Input;
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = {"description":"You can do the following:","commands":[{"name":"experience","description":"view current and past jobs"},{"name":"skills","description":"view a list of skills"},{"name":"resume","description":"view my resume"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"}]}
+module.exports = {"description":"You can do the following:","commands":[{"name":"experience","description":"view current and past jobs"},{"name":"skills","description":"view a list of skills"},{"name":"resume","description":"view my resume"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"},{"name":"clear","description":"clear all previous text"}]}
 
 /***/ }),
 /* 5 */

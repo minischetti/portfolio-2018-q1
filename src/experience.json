@@ -1,0 +1,7 @@
+{
+    "description": "Experience:",
+    "jobs": [
+            {"name": "Williams-Sonoma, Inc.", "role": "Front-end Engineer", "duration": "April 2017 - Present", "description": "Acts as a front-end engineer on an agile-driven team that creates and supports an expansive, multi-brand e-commerce platform. Collaborates with back-end and design teams to develop new initiatives utilizing core web technologies, Java and unit tests in SVN and Git workflows."},
+            {"name": "Bisk Education", "role": "Interactive Developer", "duration": "April 2015 - March 2016", "description": "Responsible for the design and development of internal and external marketing initiatives for nation-wide universities, including mobile and desktop websites and experiences. Worked extensively with other designers, developers, copywriters, stakeholders and the like to deliver impactful products."}
+    ]
+}

@@ -107,41 +107,45 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Help = __webpack_require__(4);
+var Experience = __webpack_require__(5);
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
         var _this = _super.call(this, props) || this;
+        _this.updateValue = function (value) {
+            _this.setState({ value: value });
+        };
+        _this.updateLines = function (text) {
+            _this.setState({ lines: _this.state.lines.concat(text) });
+        };
+        _this.handleSubmit = function (event) {
+            event.preventDefault();
+            event.target.reset();
+            _this.checkCommand();
+        };
         _this.state = { value: "", lines: [] };
-        _this.updateValue = _this.updateValue.bind(_this);
-        _this.handleSubmit = _this.handleSubmit.bind(_this);
-        _this.updateLines = _this.updateLines.bind(_this);
-        _this.checkCommand = _this.checkCommand.bind(_this);
         return _this;
     }
-    App.prototype.updateValue = function (value) {
-        this.setState({ value: value });
-    };
-    App.prototype.updateLines = function (text) {
-        this.setState({ lines: this.state.lines.concat(text) });
-    };
-    App.prototype.handleSubmit = function (event) {
-        event.preventDefault();
-        this.updateLines(this.state.value);
-        this.checkCommand();
-    };
     App.prototype.checkCommand = function () {
-        var command = this.state.value;
+        var command = this.state.value.toLowerCase();
         var lines = [command];
         switch (command) {
             case "help":
-                lines = lines.concat([Help.description]);
                 Help.commands.forEach(function (x) {
                     lines = lines.concat(x.name + ": " + x.description);
                 });
                 this.updateLines(lines);
                 break;
+            case "experience":
+                Experience.jobs.forEach(function (x) {
+                    lines = lines.concat(x.name + " | " + x.role + " | " + x.duration);
+                    lines = lines.concat(x.description);
+                });
+                this.updateLines(lines);
+                break;
             default:
-                this.updateLines(command + ": command not found");
+                var array = [{ "type": "error", "text": command + ": command not found" }];
+                this.updateLines(array);
         }
     };
     App.prototype.render = function () {
@@ -159,7 +163,12 @@ var Terminal = /** @class */ (function (_super) {
     }
     Terminal.prototype.render = function () {
         var lines = this.props.lines.map(function (line) {
-            return React.createElement("div", null, line);
+            if (line.type) {
+                return React.createElement("div", { className: line.type }, line.text);
+            }
+            else {
+                return React.createElement("div", null, line);
+            }
         });
         return (React.createElement("div", { className: "terminal" }, lines));
     };
@@ -168,22 +177,17 @@ var Terminal = /** @class */ (function (_super) {
 exports.Terminal = Terminal;
 var Input = /** @class */ (function (_super) {
     __extends(Input, _super);
-    function Input(props) {
-        var _this = _super.call(this, props) || this;
-        _this.handleChange = _this.handleChange.bind(_this);
-        _this.handleSubmit = _this.handleSubmit.bind(_this);
+    function Input() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.handleChange = function (event) {
+            _this.props.updateValue(event.target.value);
+        };
         return _this;
     }
-    Input.prototype.handleChange = function (event) {
-        this.props.updateValue(event.target.value);
-    };
-    Input.prototype.handleSubmit = function (event) {
-        event.preventDefault();
-    };
     Input.prototype.render = function () {
         return (React.createElement("form", { onSubmit: this.props.handleSubmit },
-            React.createElement("input", { type: "text", onChange: this.handleChange }),
-            React.createElement("input", { type: "submit", value: "Submit" })));
+            React.createElement("span", null, "portfolio dominicminischetti$\u00A0"),
+            React.createElement("input", { type: "text", onChange: this.handleChange, autoFocus: true })));
     };
     return Input;
 }(React.Component));
@@ -194,7 +198,13 @@ exports.Input = Input;
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = {"description":"You can do the following:","commands":[{"name":"jobs","description":"view current and past jobs"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"},{"name":"resume","description":"view my resume"}]}
+module.exports = {"description":"You can do the following:","commands":[{"name":"experience","description":"view current and past jobs"},{"name":"skills","description":"view a list of skills"},{"name":"resume","description":"view my resume"},{"name":"social","description":"view available social media profiles"},{"name":"email","description":"write me an email"}]}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = {"description":"Experience:","jobs":[{"name":"Williams-Sonoma, Inc.","role":"Front-end Engineer","duration":"April 2017 - Present","description":"Acts as a front-end engineer on an agile-driven team that creates and supports an expansive, multi-brand e-commerce platform. Collaborates with back-end and design teams to develop new initiatives utilizing core web technologies, Java and unit tests in SVN and Git workflows."},{"name":"Bisk Education","role":"Interactive Developer","duration":"April 2015 - March 2016","description":"Responsible for the design and development of internal and external marketing initiatives for nation-wide universities, including mobile and desktop websites and experiences. Worked extensively with other designers, developers, copywriters, stakeholders and the like to deliver impactful products."}]}
 
 /***/ })
 /******/ ]);

@@ -108,6 +108,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Help = __webpack_require__(4);
 var Experience = __webpack_require__(5);
+var Skills = __webpack_require__(6);
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
@@ -137,21 +138,23 @@ var App = /** @class */ (function (_super) {
                 Help.commands.forEach(function (x) {
                     lines = lines.concat(x.name + ": " + x.description);
                 });
-                this.updateLines(lines);
                 break;
             case "experience":
-                Experience.jobs.forEach(function (x) {
-                    lines = lines.concat(x.name + " | " + x.role + " | " + x.duration + "\n" + x.description + "\n\n");
+                Experience.jobs.forEach(function (job) {
+                    lines = lines.concat(job.name + " | " + job.role + " | " + job.duration + "\n" + job.description + "\n\n");
                 });
-                this.updateLines(lines);
                 break;
+            case "skills":
+                Skills.skills.forEach(function (skill) {
+                    lines = lines.concat(skill);
+                });
             case "clear":
                 this.clearLines();
                 break;
             default:
-                var array = [{ "type": "error", "text": command + ": command not found" }];
-                this.updateLines(array);
+                lines = [{ "type": "error", "text": command + ": command not found" }];
         }
+        this.updateLines(lines);
     };
     App.prototype.render = function () {
         return (React.createElement("div", { className: "terminal-container" },
@@ -212,6 +215,12 @@ module.exports = {"description":"You can do the following:","commands":[{"name":
 /***/ (function(module, exports) {
 
 module.exports = {"description":"Experience:","jobs":[{"name":"Williams-Sonoma, Inc.","role":"Front-end Engineer","duration":"April 2017 - Present","description":"Acts as a front-end engineer on an agile-driven team that creates and supports an expansive, multi-brand e-commerce platform. Collaborates with back-end and design teams to develop new initiatives utilizing core web technologies, Java and unit tests in SVN and Git workflows."},{"name":"Bisk Education","role":"Interactive Developer","duration":"April 2015 - March 2016","description":"Responsible for the design and development of internal and external marketing initiatives for nation-wide universities, including mobile and desktop websites and experiences. Worked extensively with other designers, developers, copywriters, stakeholders and the like to deliver impactful products."}]}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = {"skills":["HTML5","Freemarker (HTML Templating)","CSS3","SASS, Stylus (CSS Pre-processing)","JavaScript (+ ES6)","React","Webpack","Java","Automation Testing","Adobe Photoshop","Sketch"]}
 
 /***/ })
 /******/ ]);

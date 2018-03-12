@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Help from "../help.json";
 import * as Experience from "../experience.json";
+import * as Skills from "../skills.json";
 
 interface AppProps {
     value: string;
@@ -37,21 +38,23 @@ export class App extends React.Component<AppProps, any> {
                 Help.commands.forEach((x: Array<string>) => {
                     lines = [...lines, ...`${x.name}: ${x.description}`];
                 });
-                this.updateLines(lines);
                 break;
             case "experience":
-                Experience.jobs.forEach((x) => {
-                    lines = [...lines, ...`${x.name} | ${x.role} | ${x.duration}\n${x.description}\n\n`];
+                Experience.jobs.forEach((job) => {
+                    lines = [...lines, ...`${job.name} | ${job.role} | ${job.duration}\n${job.description}\n\n`];
                 });
-                this.updateLines(lines);
                 break;
+            case "skills":
+                Skills.skills.forEach((skill: Array<string>) => {
+                    lines = [...lines, ...skill];
+                });
             case "clear":
                 this.clearLines();
                 break;
             default:
-                const array = [{ "type": "error", "text": `${command}: command not found` }];
-                this.updateLines(array);
-        }
+                lines = [{ "type": "error", "text": `${command}: command not found` }];
+            }
+        this.updateLines(lines);
     }
     render() {
         return (

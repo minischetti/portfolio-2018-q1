@@ -14,15 +14,10 @@ interface AppProps {
 export class App extends React.Component<AppProps, any> {
     constructor(props: any) {
         super(props);
-        this.state = { visitorName: "", focus: true, value: "", lines: [] };
+        this.state = { visitorName: "", changeName: false, focus: true, value: "", lines: [] };
     }
-    componentDidMount() {
-        if (!this.state.visitorName) {
-
-        }
-    }
-    getVisitorName() {
-        this
+    changeName = (state: boolean) => {
+        this.setState({ changeName: state });
     }
     updateValue = (value: string) => {
         this.setState({ value: value });
@@ -38,16 +33,19 @@ export class App extends React.Component<AppProps, any> {
     clearName = () => {
         this.setState({ visitorName: "" });
     }
-    updateName = (name) => {
-        this.setState({ visitorName: name }, () => {
-            this.updateLines(`Thanks ${name}, your name has been updated.`);
+    updateName = () => {
+        this.setState({ visitorName: this.state.value }, () => {
+            this.updateLines(`Okay, I'll call you ${this.state.visitorName} from now on.`);
         });
     }
     handleSubmit = (event: any) => {
         event.preventDefault();
         event.target.reset();
-        if (!this.state.visitorName) {
+        if (!this.state.visitorName && !this.state.changeName) {
             this.setName();
+        } else if (!this.state.visitorName && this.state.changeName) {
+            this.updateName();
+            this.changeName(false);
         } else {
             this.checkCommand();
         }
@@ -75,8 +73,8 @@ export class App extends React.Component<AppProps, any> {
                 });
             case "name":
                 this.clearName();
-                lines = ["Please enter your name."];
-                // this.updateName(command);
+                this.changeName(true);
+                lines = ["What would you like me to call you?"];
                 break;
             case "clear":
                 this.clearLines();
@@ -112,7 +110,7 @@ export class Terminal extends React.Component<TerminalProps, any> {
         });
         return (
             <div className="terminal">
-                <div>Hello! Welcome to the portfolio of Dominic Minischetti, a Front-end Engineer located in California. Please type your name to begin.</div>
+                <div>Hello! Welcome to the portfolio of Dominic Minischetti, a Front-end Engineer located in California. Please type your first name to begin.</div>
                 {lines}
             </div>
         )

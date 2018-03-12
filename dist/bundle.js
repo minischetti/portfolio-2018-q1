@@ -113,6 +113,9 @@ var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
         var _this = _super.call(this, props) || this;
+        _this.changeName = function (state) {
+            _this.setState({ changeName: state });
+        };
         _this.updateValue = function (value) {
             _this.setState({ value: value });
         };
@@ -127,16 +130,20 @@ var App = /** @class */ (function (_super) {
         _this.clearName = function () {
             _this.setState({ visitorName: "" });
         };
-        _this.updateName = function (name) {
-            _this.setState({ visitorName: name }, function () {
-                _this.updateLines("Thanks " + name + ", your name has been updated.");
+        _this.updateName = function () {
+            _this.setState({ visitorName: _this.state.value }, function () {
+                _this.updateLines("Okay, I'll call you " + _this.state.visitorName + " from now on.");
             });
         };
         _this.handleSubmit = function (event) {
             event.preventDefault();
             event.target.reset();
-            if (!_this.state.visitorName) {
+            if (!_this.state.visitorName && !_this.state.changeName) {
                 _this.setName();
+            }
+            else if (!_this.state.visitorName && _this.state.changeName) {
+                _this.updateName();
+                _this.changeName(false);
             }
             else {
                 _this.checkCommand();
@@ -145,16 +152,9 @@ var App = /** @class */ (function (_super) {
         _this.clearLines = function () {
             _this.setState({ lines: [] });
         };
-        _this.state = { visitorName: "", focus: true, value: "", lines: [] };
+        _this.state = { visitorName: "", changeName: false, focus: true, value: "", lines: [] };
         return _this;
     }
-    App.prototype.componentDidMount = function () {
-        if (!this.state.visitorName) {
-        }
-    };
-    App.prototype.getVisitorName = function () {
-        this;
-    };
     App.prototype.checkCommand = function () {
         var command = this.state.value.toLowerCase();
         var lines = [command];
@@ -175,8 +175,8 @@ var App = /** @class */ (function (_super) {
                 });
             case "name":
                 this.clearName();
-                lines = ["Please enter your name."];
-                // this.updateName(command);
+                this.changeName(true);
+                lines = ["What would you like me to call you?"];
                 break;
             case "clear":
                 this.clearLines();
@@ -209,7 +209,7 @@ var Terminal = /** @class */ (function (_super) {
             }
         });
         return (React.createElement("div", { className: "terminal" },
-            React.createElement("div", null, "Hello! Welcome to the portfolio of Dominic Minischetti, a Front-end Engineer located in California. Please type your name to begin."),
+            React.createElement("div", null, "Hello! Welcome to the portfolio of Dominic Minischetti, a Front-end Engineer located in California. Please type your first name to begin."),
             lines));
     };
     return Terminal;

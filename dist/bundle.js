@@ -123,7 +123,7 @@ var App = /** @class */ (function (_super) {
             event.target.reset();
             _this.checkCommand();
         };
-        _this.state = { value: "", lines: [] };
+        _this.state = { focus: true, value: "", lines: [] };
         return _this;
     }
     App.prototype.checkCommand = function () {
@@ -151,7 +151,7 @@ var App = /** @class */ (function (_super) {
     App.prototype.render = function () {
         return (React.createElement("div", { className: "terminal-container" },
             React.createElement(Terminal, { lines: this.state.lines }),
-            React.createElement(Input, { updateValue: this.updateValue, handleSubmit: this.handleSubmit })));
+            React.createElement(Input, { updateValue: this.updateValue, handleSubmit: this.handleSubmit, focus: this.state.focus })));
     };
     return App;
 }(React.Component));
@@ -170,7 +170,9 @@ var Terminal = /** @class */ (function (_super) {
                 return React.createElement("div", null, line);
             }
         });
-        return (React.createElement("div", { className: "terminal" }, lines));
+        return (React.createElement("div", { className: "terminal" },
+            React.createElement("div", null, "Hello, welcome to my portfolio! To begin, type commands like experience, or skills. If you need help, simply type help."),
+            lines));
     };
     return Terminal;
 }(React.Component));
@@ -187,7 +189,7 @@ var Input = /** @class */ (function (_super) {
     Input.prototype.render = function () {
         return (React.createElement("form", { onSubmit: this.props.handleSubmit },
             React.createElement("span", null, "portfolio dominicminischetti$\u00A0"),
-            React.createElement("input", { type: "text", onChange: this.handleChange, autoFocus: true })));
+            React.createElement("input", { id: "input", type: "text", placeholder: "type your command...", onChange: this.handleChange, autoFocus: true, autoComplete: "off" })));
     };
     return Input;
 }(React.Component));

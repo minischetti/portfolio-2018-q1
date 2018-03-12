@@ -2,15 +2,23 @@ import * as React from "react";
 import * as Help from "../help.json";
 import * as Experience from "../experience.json";
 
-export class App extends React.Component {
+interface AppProps {
+    value: string;
+    command: string;
+    text: [string, Array<string>];
+    x: Array<string>;
+    lines: Array<string>;
+}
+
+export class App extends React.Component<AppProps, any> {
     constructor(props: any) {
         super(props);
-        this.state = { value: "", lines: [] };
+        this.state = { focus: true, value: "", lines: [] };
     }
-    updateValue = (value: String) => {
+    updateValue = (value: string) => {
         this.setState({ value: value });
     }
-    updateLines = (text: String) => {
+    updateLines = (text: Array<string>) => {
         this.setState({ lines: [...this.state.lines, ...text] });
     }
     handleSubmit = (event: any) => {
@@ -23,7 +31,7 @@ export class App extends React.Component {
         let lines = [command];
         switch (command) {
             case "help":
-                Help.commands.forEach((x) => {
+                Help.commands.forEach((x: Array<string>) => {
                     lines = [...lines, ...`${x.name}: ${x.description}`];
                 });
                 this.updateLines(lines);
@@ -44,13 +52,18 @@ export class App extends React.Component {
         return (
             <div className="terminal-container">
                 <Terminal lines={this.state.lines} />
-                <Input updateValue={this.updateValue} handleSubmit={this.handleSubmit} />
+                <Input updateValue={this.updateValue} handleSubmit={this.handleSubmit} focus={this.state.focus}/>
             </div>
         )
     }
 }
 
-export class Terminal extends React.Component {
+interface TerminalProps {
+    lines: Array<string>;
+    line: Array<string>;
+}
+
+export class Terminal extends React.Component<TerminalProps, any> {
     render() {
         const lines = this.props.lines.map((line) => {
             if (line.type) {
@@ -61,13 +74,14 @@ export class Terminal extends React.Component {
         });
         return (
             <div className="terminal">
+                <div>Hello, welcome to my portfolio! To begin, type commands like experience, or skills. If you need help, simply type help.</div>
                 {lines}
             </div>
         )
     }
 }
 
-export class Input extends React.Component {
+export class Input extends React.Component<App, any> {
     handleChange = (event: any) => {
         this.props.updateValue(event.target.value);
     }
@@ -75,7 +89,7 @@ export class Input extends React.Component {
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <span>portfolio dominicminischetti$&nbsp;</span>
-                <input type="text" onChange={this.handleChange} autoFocus />
+                <input id="input" type="text" placeholder="type your command..." onChange={this.handleChange} autoFocus autoComplete="off" />
             </form>
         )
     }

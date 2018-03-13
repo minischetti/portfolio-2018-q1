@@ -71,6 +71,7 @@ export class App extends React.Component<AppProps, any> {
                 Skills.skills.forEach((skill: Array<string>) => {
                     lines = [...lines, ...skill];
                 });
+                break;
             case "name":
                 this.clearName();
                 this.changeName(true);

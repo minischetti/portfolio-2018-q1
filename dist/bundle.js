@@ -173,6 +173,7 @@ var App = /** @class */ (function (_super) {
                 Skills.skills.forEach(function (skill) {
                     lines = lines.concat(skill);
                 });
+                break;
             case "name":
                 this.clearName();
                 this.changeName(true);
